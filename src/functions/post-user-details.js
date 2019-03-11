@@ -8,32 +8,32 @@ exports.handler = async function(event, context, callback) {
   context.callbackWaitsForEmptyEventLoop = false;
   // const body = JSON.parse(event.body);
   // console.log(body);
-  const PersonSchema = new mongoose.Schema({
-    Email: {
-      type: String,
-      required: true,
-      trime: true,
-    },
-    Address: {
-      type: String,
-      required: false,
-      trime: true,
-    },
-    IdentityID: {
-      type: String,
-      required: true,
-    },
-    AvatarUrl: {
-      type: String,
-      required: false,
-    },
-  });
-  PersonSchema.plugin(timestamp);
-  const User = mongoose.model('User', PersonSchema);
-  const uri = process.env.MONGO_URL;
 
   if (conn == null) {
     try {
+      const PersonSchema = new mongoose.Schema({
+        Email: {
+          type: String,
+          required: true,
+          trime: true,
+        },
+        Address: {
+          type: String,
+          required: false,
+          trime: true,
+        },
+        IdentityID: {
+          type: String,
+          required: true,
+        },
+        AvatarUrl: {
+          type: String,
+          required: false,
+        },
+      });
+      PersonSchema.plugin(timestamp);
+      const User = mongoose.model('User', PersonSchema);
+      const uri = process.env.MONGO_URL;
       console.log('trying to connect');
       conn = await mongoose.connect(
         uri,
