@@ -5,8 +5,9 @@ let conn = null;
 
 exports.handler = async function(event, context, callback) {
   console.log('trying');
-  const body = JSON.parse(event.body);
-  console.log(body);
+  context.callbackWaitsForEmptyEventLoop = false;
+  // const body = JSON.parse(event.body);
+  // console.log(body);
   const PersonSchema = new mongoose.Schema({
     Email: {
       type: String,
@@ -29,7 +30,7 @@ exports.handler = async function(event, context, callback) {
   });
   PersonSchema.plugin(timestamp);
   const User = mongoose.model('User', PersonSchema);
-  const uri = process.env.MONGO_URL
+  const uri = process.env.MONGO_URL;
 
   if (conn == null) {
     try {
