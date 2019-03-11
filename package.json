@@ -1,0 +1,17 @@
+{
+  "name": "functions-meetup-talk",
+  "version": "1.0.0",
+  "description": "This is an example of how to update user_metadata and app_metadata for users on Netlify Identity. Note that all data in app_metadata and user_metadata is available to read from the client.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.4.17",
+    "mongoose-timestamp": "^0.6.0",
+    "netlify-lambda": "^1.4.2"
+  }
+}

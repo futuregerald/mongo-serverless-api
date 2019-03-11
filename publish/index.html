@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Identity-Signup</title>
+    <link rel="stylesheet" href="./bootstrap.flat.min.css">
+    <link rel="stylesheet" href="./index.css">
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+
+<body>
+    <div>
+        <h3>Hi! Let's play with Identity JWT user_metadata!</h3>
+        <button type="submit" class="btn btn-primary" id="open">Open Identity Login Modal</button>
+        <textarea name="" id="textArea" cols="30" rows="10"></textarea>
+        <button type="submit" class="btn btn-outline-dark" id="save">Save new user_metadata</button>
+        <div>
+            <p id="notice"></p>
+            <pre class="body" id="user">User Info will appear here</pre>
+        </div>
+    </div>
+    <script>
+        // Let's find these DOM elements!
+        const infoPre = document.querySelector("#user");
+        const textArea = document.querySelector("#textArea");
+        // format_stringify is a function that takes in an object and returns formatted JSON
+        const format_stringify = (data) => JSON.stringify(data, null, 2)
+        // showCurrentInfo updates the UI to show the current user data passed in to it
+        const showCurrentInfo = (user) => {
+            const str = format_stringify(user)
+            infoPre.innerHTML = str;
+        }
+        // open function opens the netlify-identity-widget signup/sign-in modal
+        const open = () => netlifyIdentity.open()
+        // save function takes the value of the textarea and saves it in the user_metadata for the logged in user
+        const save = async () => {
+            const user_metadata = {
+                data: {
+                    custom_data_from_ui: textArea.value
+                }
+            }
+            const user = await netlifyIdentity.gotrue.currentUser().update(user_metadata)
+
+            showCurrentInfo(user)
+            textArea.value += "\n\n Saved!"
+        }
+
+        // Adding an event listener on the netlify identity widget to show the current users data
+        netlifyIdentity.on('login', user => {
+            showCurrentInfo(user)
+            if (user.user_metadata.custom_data_from_ui) {
+                textArea.value = format_stringify(user.user_metadata.custom_data_from_ui).replace(/"/g, "")
+            }
+        });
+
+        // adding some event listeners.
+        document.querySelector("#open").addEventListener("click", open)
+        document.querySelector("#save").addEventListener("click", save)
+    </script>
+</body>
+
+</html>
