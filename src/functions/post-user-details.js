@@ -9,13 +9,12 @@ exports.handler = async function(event, context, callback) {
   // const body = JSON.parse(event.body);
   // console.log(body);
 
-  if (conn == null) {
-    try {
-      conn = await mongoose.connect(uri);
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    conn = await mongoose.connect(uri);
+  } catch (error) {
+    console.log(error);
   }
+
   const PersonSchema = new mongoose.Schema({
     Email: {
       type: String,
