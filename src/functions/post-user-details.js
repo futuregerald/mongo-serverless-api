@@ -35,14 +35,7 @@ exports.handler = async function(event, context, callback) {
       const User = mongoose.model('User', PersonSchema);
       const uri = process.env.MONGO_URL;
       console.log('trying to connect');
-      conn = await mongoose.connect(
-        uri,
-        {
-          bufferCommands: false, // Disable mongoose buffering
-          bufferMaxEntries: 0, // and MongoDB driver buffering
-          useNewUrlParser: true,
-        }
-      );
+      conn = await mongoose.connect(uri);
     } catch (error) {
       console.log(error);
     }
