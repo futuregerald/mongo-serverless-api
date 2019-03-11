@@ -7,8 +7,7 @@ exports.handler = async function(event, context, callback) {
   const uri = process.env.MONGO_URL;
   console.log('trying');
   context.callbackWaitsForEmptyEventLoop = false;
-  // const body = JSON.parse(event.body);
-  // console.log(body);
+  console.log(event.body);
 
   const PersonSchema = new mongoose.Schema({
     Email: {
@@ -68,7 +67,7 @@ exports.handler = async function(event, context, callback) {
     Email: 'testing2@tested.com',
     Address: '123 fake st. New York City, NY 10023',
     IdentityID: '798f2522-aab3-4e01-84ee-8331f3b83e6b',
-    UseNewUrlParser: true,
+    useNewUrlParser: true,
   });
   const newUser = await user.save();
   console.log(newUser);
@@ -78,6 +77,6 @@ exports.handler = async function(event, context, callback) {
 
   return callback(null, {
     statusCode: 200,
-    body: doc,
+    body: JSON.stringify(doc),
   });
 };
