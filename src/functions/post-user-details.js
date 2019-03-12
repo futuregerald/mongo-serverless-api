@@ -7,6 +7,7 @@ exports.handler = async function(event, context, callback) {
   const uri = process.env.MONGO_URL;
   console.log('trying');
   context.callbackWaitsForEmptyEventLoop = false;
+  console.log(event.method);
   console.log(event.body);
 
   const PersonSchema = new mongoose.Schema({
@@ -29,35 +30,13 @@ exports.handler = async function(event, context, callback) {
       required: false,
     },
   });
-  /*
-  try {
-    conn = await mongoose.connect(uri);
-  } catch (error) {
-    console.log(error);
-  }
-  */
+
   PersonSchema.plugin(timestamp);
-  // const User = mongoose.model('User', PersonSchema);
 
-  /*
-
-  console.log('trying to connect');
-  
-  const newUser = await user.save();
-  console.log(newUser);
-
-  console.log('done');
-
-  const doc = await User.findOne({ email: 'testing_from_function@tested.com' });
-  console.log(doc);
-  */
   if (conn == null) {
     conn = await mongoose.createConnection(uri, {
-      // Buffering means mongoose will queue up operations if it gets
-      // disconnected from MongoDB and send them when it reconnects.
-      // With serverless, better to fail fast if not connected.
-      bufferCommands: false, // Disable mongoose buffering
-      bufferMaxEntries: 0, // and MongoDB driver buffering
+      bufferCommands: false,
+      bufferMaxEntries: 0,
     });
     conn.model('User', PersonSchema);
   }
