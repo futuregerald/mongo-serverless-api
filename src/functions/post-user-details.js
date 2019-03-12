@@ -8,8 +8,8 @@ exports.handler = async function(event, context, callback) {
   const uri = process.env.MONGO_URL;
   console.log('trying');
   console.log(event);
-  const body = JSON.parse(event.body);
-  console.log(body);
+  // const body = JSON.parse(event.body);
+  // console.log(body);
 
   const PersonSchema = new mongoose.Schema({
     Email: {
