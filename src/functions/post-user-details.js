@@ -4,11 +4,12 @@ const timestamp = require('mongoose-timestamp');
 let conn = null;
 
 exports.handler = async function(event, context, callback) {
+  context.callbackWaitsForEmptyEventLoop = false;
   const uri = process.env.MONGO_URL;
   console.log('trying');
-  context.callbackWaitsForEmptyEventLoop = false;
-  console.log(event.method);
-  console.log(event.body);
+  console.log(event);
+  const body = JSON.parse(event.body);
+  console.log(body);
 
   const PersonSchema = new mongoose.Schema({
     Email: {
