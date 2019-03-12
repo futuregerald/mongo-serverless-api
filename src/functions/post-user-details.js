@@ -4,12 +4,17 @@ const timestamp = require('mongoose-timestamp');
 let conn = null;
 
 exports.handler = async function(event, context, callback) {
+  if (event.httpMethod != 'POST') {
+    return callback(null, {
+      statusCode: 405,
+      body: 'Method not allowed',
+    });
+  }
   context.callbackWaitsForEmptyEventLoop = false;
   const uri = process.env.MONGO_URL;
   console.log('trying');
-  console.log(event);
-  // const body = JSON.parse(event.body);
-  // console.log(body);
+  const body = JSON.parse(event.body);
+  console.log(body);
 
   const PersonSchema = new mongoose.Schema({
     Email: {
